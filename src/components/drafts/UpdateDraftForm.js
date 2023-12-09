@@ -5,7 +5,7 @@ import FormInputError from '../../UI/form/FormInputError';
 import TextAreaInput from '../../UI/form/TextAreaInput';
 
 const UpdateDraftForm = ({ selectedDraft, onSubmit }) => {
-    const { register, handleSubmit, formState, setValue, reset } = useForm();
+    const { register, handleSubmit, formState, setValue, reset , getValues} = useForm();
     const [successMessage, setSuccessMessage] = useState('');
   
     useEffect(() => {
@@ -16,50 +16,57 @@ const UpdateDraftForm = ({ selectedDraft, onSubmit }) => {
         // Update form fields with fetched data
         Object.keys(selectedDraft).forEach((field) => {
           setValue(field, selectedDraft[field]);
+          
         });
       }
     }, [selectedDraft, setValue]);
-  
-    const submitHandler = async (formData) => {
+
+
+    const draftHandler = async () => {
       try {
         if (!selectedDraft) {
-          // Handle the case where selectedDraft is null
           console.log('Selected Draft is null.');
           return;
         }
-  
-        const response = await fetch(`http://localhost:3001/drafts/updateDraft/${selectedDraft._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-  
+    
+        // Extract only the registered form fields from selectedDraft
+        const formData = getValues();
+        console.log(formData);
+        const response = await fetch(
+          "http://localhost:3001/drafts/updateDraft?id=" + selectedDraft._id,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          }
+        );
+    
         const data = await response.json();
-  
+    
         if (!response.ok) {
           throw Error(data.error);
         }
-  
+    
         console.log(data);
-  
+    
         reset();
-  
+    
         setSuccessMessage('Draft updated successfully');
-  
-        if (onSubmit) {
+    
+        if (onSubmit && data.updatedDraft) {
           onSubmit(data.updatedDraft);
         }
       } catch (err) {
         console.log(err.message);
       }
     };
-
+  
   return (
     <form
       className="justify-center flex flex-col p-10 gap-5 bg-gray-800 w-fit"
-      onSubmit={handleSubmit(submitHandler)}
+      onSubmit ={handleSubmit(draftHandler)}
     >
       <TextAreaInput
         label="Description"
@@ -108,7 +115,7 @@ const UpdateDraftForm = ({ selectedDraft, onSubmit }) => {
 
       <button
         type="submit"
-        className="bg-white rounded-x1 my-4 py-2 px-8 self-center"
+        className="bg-white rounded-x1 my-4 py-2 px-8 self-center" onClick ={draftHandler}
       >
         Update Draft
       </button>
