@@ -9,7 +9,7 @@ const JournalistPage = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch('http://localhost:3001/article/get/6574997cf8b36c963e73b0cf');
+        const response = await fetch('http://localhost:3001/article/journalist/sandy');
         const data = await response.json();
 
         if (!response.ok) {

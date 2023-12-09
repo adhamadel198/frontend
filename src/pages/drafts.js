@@ -9,7 +9,7 @@ const DraftsPage = () => {
   useEffect(() => {
     const fetchDrafts = async () => {
       try {
-        const response = await fetch('http://localhost:3001/drafts/65615d083e76ec0fa9ffc66e');
+        const response = await fetch('http://localhost:3001/drafts/657286ff0f63f6c97ce954b5');
         const data = await response.json();
 
         if (!response.ok) {
