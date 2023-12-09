@@ -34,6 +34,32 @@ const AddArticleForm = (props) => {
     }
   };
 
+  const saveHandler = async (formData) => {
+    try {
+      const response = await fetch('http://localhost:3001/drafts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw Error(data.error);
+      }
+
+      console.log(data);
+
+      reset();
+
+      setSuccessMessage('Draft added successfully');
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <form
       className="justify-center flex flex-col p-10 gap-5 bg-gray-800 w-fit"
@@ -88,6 +114,13 @@ const AddArticleForm = (props) => {
         className="bg-white rounded-x1 my-4 py-2 px-8 self-center"
       >
         Add Article
+      </button>
+      <button
+        type="button"
+        onClick={handleSubmit(saveHandler)}
+        className="bg-white rounded-x1 my-4 py-2 px-8 self-center"
+      >
+        Add Draft
       </button>
     </form>
   );
