@@ -42,9 +42,12 @@ export default function Password() {
   
   
         if (personTypeId === 1) {
-          navigate('/topic');
+          navigate('/home');
         } else if (personTypeId === 2) {
-          navigate("/profile");
+          navigate("/journalistPage");
+        }
+        else if (personTypeId === 3) {
+          navigate("/AdminPage");
         }
       } catch (error) {
 

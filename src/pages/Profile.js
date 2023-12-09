@@ -35,6 +35,7 @@ export default function Profile() {
         const response = await updateUser(userId, values);
         console.log(response.data);
         toast.success("Profile Updated Successfully!");
+        navigate("/topic");
       } catch (error) {
         console.error("Error updating user profile:", error.error);
         toast.error("Could not Update Profile!");
