@@ -41,11 +41,20 @@ export async function verifyLogin({ username, password }) {
       username,
       password,
     });
+
+    console.log("Login Response:", response);
+
+    // You may want to return some data from the response if needed
+    return response.data;
   } catch (error) {
-    console.error("Error during login:", error);
-    return Promise.reject({ error: "Password Doesn't match" });
+    console.error("Error during login:", error.response || error);
+
+    // Propagate the error to the calling function
+    throw error;
   }
 }
+
+
 
 export async function updateUser(userId, userData) {
   try {

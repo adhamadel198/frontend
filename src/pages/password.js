@@ -20,7 +20,7 @@ export default function Password() {
   const navigate = useNavigate();
   const { username } = useAuthStore((state) => state.auth);
   console.log(username);
-  const [{ isLoading, apiData, serverError }] = useFetch(/user/`${username}`)  
+  const [{ isLoading, apiData, serverError }] = useFetch(`/user/${username}`);
   console.log(apiData)
   const personTypeId = apiData?.personTypeId;
 
@@ -52,12 +52,6 @@ export default function Password() {
       }
     },
   });
-  
-  
-  if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
-  if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
-
-
   
   return (
     <div class="container max-w-screen-2xl	bg-gray-900 flex items-center justify-center">

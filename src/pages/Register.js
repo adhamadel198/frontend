@@ -31,7 +31,7 @@ const Register = () => {
           loading: "Creating...",
           success: (response) => {
             console.log("Registration successful:", response);
-            navigate("/");
+            navigate("/topic");
             return <b>Register Successfully...!</b>;
           },
           error: (error) => {
@@ -50,6 +50,8 @@ const Register = () => {
       );
     },
   });
+
+ 
 
   const onUpload = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);

@@ -11,10 +11,11 @@ import useFetch from "../hooks/fetch.hook.js";
 import { useAuthStore } from "../store/store.js";
 import { updateUser } from "../helper/helper.js";
 
+
 export default function Profile() {
   const [file, setFile] = useState();
   const { username } = useAuthStore((state) => state.auth);
-  const [{ apiData }] = useFetch(/user/`${username}`)  
+  const [{ isLoading, apiData, serverError }] = useFetch(`/user/${username}`)  
   const userId = apiData?._id;  console.log("Profile data ",apiData);
 
   const navigate = useNavigate();

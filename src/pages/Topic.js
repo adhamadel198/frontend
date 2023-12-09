@@ -10,7 +10,7 @@ export default function Topic() {
 
   const navigate = useNavigate();
   const { username } = useAuthStore((state) => state.auth);
-  const [{ isLoading, apiData, serverError }] = useFetch(/user/`${username}`)  
+  const [{ isLoading, apiData, serverError }] = useFetch(`/user/${username}`)  
   const userId = apiData?._id;
   console.log(userId);
   const formik = useFormik({
@@ -35,14 +35,13 @@ export default function Topic() {
 
         const response = await updateTopics(userId, selectedTopics);
         console.log(response.data);
+        navigate("/home")
       } catch (error) {
         console.error("Error updating user topics:", error.error);
       }
     },
   });
 
-  if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
-  if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
 
 
   return (

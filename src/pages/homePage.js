@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import ArticleList from '../components/articles/ArticleList';
+import { useAuthStore } from "../store/store.js";
 
 const HomePage = () => {
+  const { username } = useAuthStore((state) => state.auth);
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch('http://localhost:3001/article/user/adham');
+        console.log(username);
+        console.log('http://localhost:3001/article/user/'+username);
+        const response = await fetch('http://localhost:3001/article/user/'+username);
         const data = await response.json();
 
         if (!response.ok) {

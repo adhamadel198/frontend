@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-axios.defaults.baseURL = "http:3001/";
+axios.defaults.baseURL = "http://localhost:3001";
 
 export default function useFetch(query) {
-  const [getData, setData] = useState({
+  const [data, setData] = useState({
     isLoading: false,
     apiData: undefined,
     status: null,
@@ -13,27 +13,35 @@ export default function useFetch(query) {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("fff ")
+      setData((prev) => ({ ...prev, isLoading: true }));
+
       try {
-        setData((prev) => ({ ...prev, isLoading: true }));
+        console.log("Fetching data for query:", query);
+        const response = await axios.get(`/api${query}`);
 
+        setData({
+          isLoading: false,
+          apiData: response.data,
+          status: response.status,
+          serverError: null,
+        });
 
-        const { data, status } = await axios.get(`/api/${query}`);
-
-        if (status === 201) {
-          setData((prev) => ({ ...prev, isLoading: false }));
-          setData((prev) => ({ ...prev, apiData: data, status: status }));
-        }
-
-        setData((prev) => ({ ...prev, isLoading: false }));
+        console.log("API Response Status:", response.status);
+        console.log("API Response Data:", response.data);
       } catch (error) {
-        setData((prev) => ({ ...prev, isLoading: false, serverError: error }));
+        setData({
+          isLoading: false,
+          apiData: undefined,
+          status: null,
+          serverError: error,
+        });
+
+        console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
-
-
   }, [query]);
 
-  return [getData, setData];
+  return [data, setData];
 }

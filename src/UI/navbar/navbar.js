@@ -7,8 +7,7 @@ const Navbar = () =>{
           <ul className="flex justify-center items-center space-x-2 p-4">
             <Navitem to="/home">Home</Navitem>
             <Navitem to="/articles">All Articles</Navitem>
-            <Navitem to="/">Sign In</Navitem>
-            <Navitem to="/register">Sign Up</Navitem>
+            <Navitem to="/profile">Profile</Navitem>
             <SearchBar/>
           </ul>
         </nav>
